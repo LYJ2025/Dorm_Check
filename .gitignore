@@ -1,0 +1,21 @@
+*.iml
+.gradle/
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild
+.cxx
+local.properties
+
+# ---------------------------------------------------------------------------
+# 敏感数据：真实宿舍名单不进版本库
+# 内置名单放在 app/src/main/assets/roster.json（含真实姓名），
+# 公开仓库只保留 roster.example.json（假数据示例）。
+# ---------------------------------------------------------------------------
+app/src/main/assets/roster.json
+!app/src/main/assets/roster.example.json
+*.jks
+*.keystore
+# release 签名文件与口令，永远不进仓库
+keystore/

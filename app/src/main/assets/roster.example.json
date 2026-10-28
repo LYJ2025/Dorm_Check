@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "title": "示例班级（公开版占位，请勿填真实姓名）",
+  "note": "复制本文件为 roster.json 后填入真实名单；roster.json 已被 .gitignore 排除。",
+  "rooms": [
+    {
+      "roomNumber": "1#A101",
+      "students": [
+        { "bed": 1, "name": "示例甲" },
+        { "bed": 2, "name": "示例乙" }
+      ]
+    },
+    {
+      "roomNumber": "8B-201",
+      "students": [
+        { "bed": 1, "name": "示例丙" }
+      ]
+    }
+  ]
+}

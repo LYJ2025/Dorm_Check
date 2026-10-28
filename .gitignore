@@ -19,3 +19,6 @@ app/src/main/assets/roster.json
 *.keystore
 # release 签名文件与口令，永远不进仓库
 keystore/
+
+# 打包好的 APK 走 GitHub Releases，不进仓库
+dist/

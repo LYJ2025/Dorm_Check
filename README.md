@@ -10,6 +10,15 @@ Kotlin + Jetpack Compose + Material 3 的查寝点名工具，单 Activity + Vie
 | <img src="docs/screenshots/01-lobby.jpg" width="230" alt="点名页：今晚进度、宿舍门号网格，每间宿舍带全部到齐按钮" /> | <img src="docs/screenshots/02-room.jpg" width="230" alt="宿舍点名页：学生红绿卡片，可单点纠正" /> | <img src="docs/screenshots/03-report.jpg" width="230" alt="查寝报告：总览统计与未点名宿舍提示" /> |
 | 门号网格 + 全部到齐 | 红绿学生卡 | 一键生成报告 |
 
+## 下载安装
+
+直接下 APK 装上就能用：**[Dorm_Check-v1.0-public.apk](https://github.com/LYJ2025/Dorm_Check/releases/latest)**
+
+- 要求 Android 7.0（API 24）及以上，无需联网、无需登录、无需任何权限
+- **公开版不含任何宿舍或学生数据**：首次启动是空名单，点「＋ 宿舍」自己建，或从顶部「名单」导入
+- 数据只保存在本机 DataStore，卸载或清除应用数据会丢失
+- APK 签名指纹与 SHA-256 校验值见 [Releases](https://github.com/LYJ2025/Dorm_Check/releases) 说明
+
 ## 一、项目结构
 
 ```

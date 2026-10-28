@@ -3,6 +3,7 @@ package com.example.dormcheck.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,9 +16,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -437,14 +441,56 @@ fun GlassDialog(
     onDismiss: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Dialog(onDismissRequest = onDismiss) {
-        Column(
+    val palette = LocalGlassPalette.current
+    val shape = RoundedCornerShape(20.dp)
+
+    // 弹窗用接近不透明的表面 + 全屏遮罩：
+    // 玻璃半透明叠在长列表上会让背后的姓名和状态透上来，对话框里必须优先保证可读性。
+    val surfaceTop = if (palette.isDark) Color(0xFF272631) else Color(0xFFF9F8FE)
+    val surfaceBottom = if (palette.isDark) Color(0xFF1C1B24) else Color(0xFFF0EEFA)
+    val scrim = if (palette.isDark) Color.Black.copy(alpha = 0.66f) else Color(0xFF231B44).copy(alpha = 0.38f)
+    val swallowTap = remember { MutableInteractionSource() }
+
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .glassSurface(shape = RoundedCornerShape(20.dp), elevation = 18.dp)
-                .padding(20.dp),
-            content = content
-        )
+                .fillMaxSize()
+                .background(scrim)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onDismiss
+                )
+                .padding(horizontal = 20.dp, vertical = 44.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .widthIn(max = 420.dp)
+                    .shadow(
+                        elevation = 24.dp,
+                        shape = shape,
+                        clip = false,
+                        ambientColor = ShadowBlueStrong,
+                        spotColor = ShadowBlueStrong
+                    )
+                    .clip(shape)
+                    .background(Brush.verticalGradient(listOf(surfaceTop, surfaceBottom)))
+                    .border(1.dp, palette.glassLine, shape)
+                    // 卡片自身吞掉点击，点内容不会误触发遮罩的关闭
+                    .clickable(
+                        interactionSource = swallowTap,
+                        indication = null,
+                        onClick = {}
+                    )
+                    .padding(20.dp),
+                content = content
+            )
+        }
     }
 }
 

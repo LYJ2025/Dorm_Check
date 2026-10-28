@@ -32,6 +32,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dormcheck.ui.components.GlassBackdrop
 import com.example.dormcheck.ui.components.GlassButton
+import com.example.dormcheck.ui.components.GlassDialog
 import com.example.dormcheck.ui.components.GlassTabs
 import com.example.dormcheck.ui.components.glassSurface
 import com.example.dormcheck.ui.components.titleGradientStyle
@@ -233,44 +234,37 @@ private fun ResetDialog(
         }
     }
 
-    Dialog(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .glassSurface(shape = RoundedCornerShape(20.dp), elevation = 18.dp)
-                .padding(22.dp)
-        ) {
-            Text(
-                text = "重置本次点名？",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = palette.textStrong
+    GlassDialog(onDismiss = onDismiss) {
+        Text(
+            text = "重置本次点名？",
+            fontSize = 17.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = palette.textStrong
+        )
+        Spacer(Modifier.height(10.dp))
+        Text(
+            text = "所有「已到 / 未到」状态和已生成的报告都会清空，宿舍名单保留。",
+            fontSize = 13.5.sp,
+            lineHeight = 22.sp,
+            color = palette.textSub
+        )
+        Spacer(Modifier.height(18.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            GlassButton(
+                text = "取消",
+                onClick = onDismiss,
+                modifier = Modifier.weight(1f)
             )
-            Spacer(Modifier.height(10.dp))
-            Text(
-                text = "所有「已到 / 未到」状态和已生成的报告都会清空，宿舍名单保留。",
-                fontSize = 13.5.sp,
-                lineHeight = 22.sp,
-                color = palette.textSub
+            Spacer(Modifier.width(10.dp))
+            GlassButton(
+                text = if (armed) "再点一次确认" else "重置",
+                onClick = {
+                    if (armed) onConfirm() else armed = true
+                },
+                modifier = Modifier.weight(1f),
+                danger = true,
+                armed = armed
             )
-            Spacer(Modifier.height(18.dp))
-            Row(modifier = Modifier.fillMaxWidth()) {
-                GlassButton(
-                    text = "取消",
-                    onClick = onDismiss,
-                    modifier = Modifier.weight(1f)
-                )
-                Spacer(Modifier.width(10.dp))
-                GlassButton(
-                    text = if (armed) "再点一次确认" else "重置",
-                    onClick = {
-                        if (armed) onConfirm() else armed = true
-                    },
-                    modifier = Modifier.weight(1f),
-                    danger = true,
-                    armed = armed
-                )
-            }
         }
     }
 }
